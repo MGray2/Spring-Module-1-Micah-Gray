@@ -32,6 +32,10 @@ public class Order {
         return this.id;
     }
 
+    public String getOrderNumber() { return this.orderNumber; }
+
+    public List<Product> getProducts() { return this.products; }
+
     public Long getCustomerId() {
         return this.customer.getId();
     }

@@ -33,12 +33,12 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long productId, String newName, BigDecimal newPrice) {
+    public void updateProduct(Long productId, String newName, double newPrice) {
         Product product = productRepository.getReferenceById(productId);
         if (newName != null && !newName.isEmpty() && !Objects.equals(productId, product.getId())) {
             product.setName(newName);
         }
-        if (newPrice != null && !Objects.equals(newPrice, product.getPrice())) {
+        if (!Objects.equals(newPrice, product.getPrice())) {
             product.setPrice(newPrice);
         }
     }

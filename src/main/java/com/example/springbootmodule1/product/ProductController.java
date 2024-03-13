@@ -39,7 +39,7 @@ public class ProductController {
     @PutMapping(path="{productId}")
     public void updateProduct(@PathVariable("productId") Long customerId,
                               @RequestParam(required = false) String name,
-                              @RequestParam(required = false) BigDecimal price) {
+                              @RequestParam(required = false) double price) {
         productService.updateProduct(customerId, name, price);
     }
 

@@ -13,22 +13,32 @@ public class Product {
 
     private String name;
 
-    private BigDecimal price;
+    private double price;
 
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public Product() {
+        // no argument constructor
+    }
 
     public Long getId() {
         return this.id;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return this.price;
     }
+
+    public String getName() { return this.name; }
 
     public void setName(String newName) {
         this.name = newName;
     }
 
-    public void setPrice(BigDecimal newPrice) {
+    public void setPrice(double newPrice) {
         this.price = newPrice;
     }
 
