@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -21,9 +22,13 @@ public class OrderService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Order> getOrders() { return orderRepository.findAll(); }
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
+    }
 
-    public Order getOrderById(Long orderId) { return orderRepository.getReferenceById(orderId); }
+    public Optional<Order> getOrderById(Long orderId) {
+        return orderRepository.findById(orderId);
+    }
 
     public void addNewOrder(Order order) {
         orderRepository.save(order);
@@ -39,14 +44,16 @@ public class OrderService {
 
     @Transactional
     public void updateOrder(Long orderId, String orderNumber, Long customerId) {
-        Order order = orderRepository.getReferenceById(orderId);
-        Customer orderCustomer = customerRepository.getReferenceById(order.getCustomerId());
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalStateException("Order with id of (" + orderId + ") does not exist!"));
 
-        if (orderNumber != null && !orderNumber.isEmpty() && !Objects.equals(order.getId(), orderId)) {
+        if (orderNumber != null && !orderNumber.isEmpty()) {
             order.setOrderNumber(orderNumber);
         }
-        if (customerId != null && !Objects.equals(order.getCustomerId(), customerId)) {
-            order.setCustomer(orderCustomer);
+        if (customerId != null) {
+            Customer customer = customerRepository.findById(customerId)
+                    .orElseThrow(() -> new IllegalStateException("Customer with id (" + customerId + ") does not exist!"));
+            order.setCustomer(customer);
         }
     }
 }

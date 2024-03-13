@@ -23,7 +23,7 @@ public class CustomerController {
     }
 
     @GetMapping(path = "{customerId}")
-    public Customer getOneCustomer(@PathVariable("customerId") Long customerId) {
+    public Optional<Customer> getOneCustomer(@PathVariable("customerId") Long customerId) {
         return customerService.getCustomerById(customerId);
     }
 

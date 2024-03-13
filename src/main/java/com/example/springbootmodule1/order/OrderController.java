@@ -1,10 +1,12 @@
 package com.example.springbootmodule1.order;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="api/v1/order")
@@ -17,8 +19,8 @@ public class OrderController {
     @GetMapping
     public List<Order> getOrders() { return orderService.getOrders(); }
 
-    @GetMapping("path={orderId}")
-    public Order getOneOrder(@PathVariable("orderId") Long orderId) {
+    @GetMapping(path = "{orderId}")
+    public Optional<Order> getOneOrder(@PathVariable("orderId") Long orderId) {
         return orderService.getOrderById(orderId);
     }
 
@@ -30,11 +32,12 @@ public class OrderController {
         orderService.deleteOrder(orderId);
     }
 
+    @Transactional
     @PutMapping(path="{orderId}")
     public void updateOrder(@PathVariable("orderId") Long orderId,
                             @RequestParam(required = false) String orderNumber,
-                            @RequestParam(required = false) Long newId) {
-        orderService.updateOrder(orderId, orderNumber, newId);
+                            @RequestParam(required = false) Long id) {
+        orderService.updateOrder(orderId, orderNumber, id);
     }
 
 }

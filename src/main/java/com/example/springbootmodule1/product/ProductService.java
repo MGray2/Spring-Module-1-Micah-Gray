@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -20,7 +21,7 @@ public class ProductService {
 
     public List<Product> getProducts() { return productRepository.findAll(); }
 
-    public Product getProductById(Long productId) { return productRepository.getReferenceById(productId); }
+    public Optional<Product> getProductById(Long productId) { return productRepository.findById(productId); }
 
     public void addNewProduct(Product product) { productRepository.save(product); }
 
@@ -35,10 +36,10 @@ public class ProductService {
     @Transactional
     public void updateProduct(Long productId, String newName, double newPrice) {
         Product product = productRepository.getReferenceById(productId);
-        if (newName != null && !newName.isEmpty() && !Objects.equals(productId, product.getId())) {
+        if (newName != null && !newName.isEmpty()) {
             product.setName(newName);
         }
-        if (!Objects.equals(newPrice, product.getPrice())) {
+        if (newPrice != product.getPrice()) {
             product.setPrice(newPrice);
         }
     }

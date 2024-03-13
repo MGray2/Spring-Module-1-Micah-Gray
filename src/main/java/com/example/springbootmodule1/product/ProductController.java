@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="api/v1/product")
@@ -24,7 +25,7 @@ public class ProductController {
     }
 
     @GetMapping(path="{productId}")
-    public Product getOneProduct(@PathVariable("productId") Long productId) {
+    public Optional<Product> getOneProduct(@PathVariable("productId") Long productId) {
         return productService.getProductById(productId);
     }
 

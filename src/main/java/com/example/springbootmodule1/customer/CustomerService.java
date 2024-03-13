@@ -24,11 +24,11 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer getCustomerById(Long customerId) {
+    public Optional<Customer> getCustomerById(Long customerId) {
         if (customerRepository.findById(customerId).isEmpty()) {
             throw new IllegalStateException("Customer not found.");
         }
-        return customerRepository.getById(customerId);
+        return customerRepository.findById(customerId);
     }
 
     public void addNewCustomer(Customer customer) {
