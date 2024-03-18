@@ -40,4 +40,10 @@ public class OrderController {
         orderService.updateOrder(orderId, orderNumber, id);
     }
 
+    @PutMapping("{orderId}/{productId}")
+    public void addProductToOrder(@PathVariable Long orderId,
+                                  @PathVariable Long productId) {
+        orderService.addProductToOrder(orderId, productId);
+    }
+
 }

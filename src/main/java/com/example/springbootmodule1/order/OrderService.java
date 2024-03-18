@@ -2,6 +2,8 @@ package com.example.springbootmodule1.order;
 
 import com.example.springbootmodule1.customer.Customer;
 import com.example.springbootmodule1.customer.CustomerRepository;
+import com.example.springbootmodule1.product.Product;
+import com.example.springbootmodule1.product.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,13 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository) {
+    public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
+        this.productRepository = productRepository;
     }
 
     public List<Order> getOrders() {
@@ -31,6 +35,13 @@ public class OrderService {
     }
 
     public void addNewOrder(Order order) {
+        orderRepository.save(order);
+    }
+
+    public void addProductToOrder(Long orderId, Long productId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalStateException("Could not find Order."));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalStateException("Could not find Order."));
+        order.addProduct(product);
         orderRepository.save(order);
     }
 
